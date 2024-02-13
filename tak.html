@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<html lang="pl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Karolina Graf">
+	<meta name="keywords" content="">
+	
+	<link rel="icon" href="favicon.png">
+	<title>Bulwersik</title>
+	<style>
+	body{
+		  background-color: #FFCCFF;
+		  
+        }
+	body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+		    position: relative;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+		h1{
+		    color: white;
+			font-size: 70px;
+			position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+		}
+	</style>
+</head>
+<body>
+
+<h1>Kocham Cię słodziaku <3 </h1>
+
+
+
+   <canvas></canvas> 
+   <script>
+       const canvas = document.querySelector("canvas");
+       const ctx = canvas.getContext("2d");
+
+       // Ustaw rozmiar canvasu na rozmiar okna przeglądarki
+       canvas.width = window.innerWidth;
+       canvas.height = window.innerHeight;
+
+       const starsCount = 100; // liczba gwiazdek do animowania
+       const starsList = []; 
+
+       const rand = function(min, max) {
+           return Math.floor(Math.random() * (max - min + 1) + min);
+       }
+
+       // Tworzymy nowe gwiazdki i wrzucamy je do tablicy
+       for (let i = 0; i < starsCount; i++) {
+           const star = {
+               x: rand(0, canvas.width - 40),
+               y: rand(0, canvas.height - 40),
+               dirX: (Math.random() > 0.5) ? 1 : -1,
+               dirY: (Math.random() > 0.5) ? 1 : -1,
+               speed: rand(1, 2)
+           }
+           starsList.push(star);
+       }
+
+       function draw() {
+           ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+           for (const el of starsList) {
+               el.x += el.speed * el.dirX;
+               el.y += el.speed * el.dirY;
+
+               if (el.x < 0) { el.dirX = 1 }
+               if (el.x + 24 > canvas.width) { el.dirX = -1 }
+               if (el.y < 0) { el.dirY = 1 }
+               if (el.y + 24 > canvas.height) { el.dirY = -1 }
+
+               ctx.drawImage(image, el.x, el.y, 15, 15);
+           }
+       }
+
+       const image = new Image(24, 24); // obrazek ma wymiary 24,24
+       image.addEventListener("load", e => {
+           setInterval(() => draw(), 30); // Wywołaj funkcję draw co 30 milisekund
+       });
+       image.src = 'OBRAZY/serce.png';
+   </script>
+
+</body>
+</html>
